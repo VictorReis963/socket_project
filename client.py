@@ -2,36 +2,36 @@ import socket
 import threading
 import os
 
-# configurações de Conexão
-IP_SERVIDOR = '127.0.0.1' #localhost para testar na mesma máquina
+# Configurações de Conexão
+IP_SERVIDOR = '127.0.0.1' # Use 'localhost' para testar na mesma máquina
 PORTA = 9999
 
 def receber_mensagens(sock):
-    #Função que rodara em segundo plano recebemdo dados."""
+    """Função que rodará em segundo plano para receber dados."""
     while True:
         try:
             dados = sock.recv(1024).decode('utf-8')
             if not dados:
                 break
             print(f"\n[MENSAGEM RECEBIDA]: {dados}")
-            print("Escolha uma opção (1-3): ", end="") 
+            print("Escolha uma opção (1-3): ", end="") # Re-exibe o prompt
         except:
             print("\n[AVISO] Conexão encerrada pelo servidor.")
             break
 
 def iniciar_cliente():
-    # criando e conectando o socket
+    # 1. Criando e conectando o Socket
     cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         cliente.connect((IP_SERVIDOR, PORTA))
     except Exception as e:
         return print(f"Não foi possível conectar ao servidor: {e}")
 
-    # iniciando a thread de escuta
+    # 2. Iniciando a Thread de Escuta
     thread_escuta = threading.Thread(target=receber_mensagens, args=(cliente,), daemon=True)
     thread_escuta.start()
 
-    # Menu Principal
+    # 3. Loop do Menu Principal
     while True:
         print("\n" + "="*30)
         print("      SOCKET CHAT & FILE")
@@ -52,7 +52,8 @@ def iniciar_cliente():
                 caminho = input("Caminho do arquivo: ")
                 if os.path.exists(caminho):
                     nome_arq = os.path.basename(caminho)
-                    # por enquanto, enviar apenas o aviso. 
+                    # Por enquanto, enviamos apenas o aviso. 
+                    # No próximo passo faremos o envio dos bytes.
                     cliente.send(f"FILE:{nome_arq}".encode('utf-8'))
                     print(f"Aviso de arquivo enviado: {nome_arq}")
                 else:
