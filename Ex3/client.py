@@ -2,7 +2,7 @@ import socket
 import threading
 import os
 
-# Configurações de Conexão
+# Configuraçoes de Conexao
 IP_SERVIDOR = '127.0.0.1' # Use 'localhost' para testar na mesma máquina
 PORTA = 9999
 
@@ -20,14 +20,14 @@ def receber_mensagens(sock):
             break
 
 def iniciar_cliente():
-    # 1. Criando e conectando o Socket
+    # 1. Criando e conectando o socket
     cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         cliente.connect((IP_SERVIDOR, PORTA))
     except Exception as e:
         return print(f"Não foi possível conectar ao servidor: {e}")
 
-    # 2. Iniciando a Thread de Escuta
+    # 2. Iniciando a thread de escuta
     thread_escuta = threading.Thread(target=receber_mensagens, args=(cliente,), daemon=True)
     thread_escuta.start()
 
@@ -53,7 +53,7 @@ def iniciar_cliente():
                 if os.path.exists(caminho):
                     nome_arq = os.path.basename(caminho)
                     # Por enquanto, enviamos apenas o aviso. 
-                    # No próximo passo faremos o envio dos bytes.
+                    
                     cliente.send(f"FILE:{nome_arq}".encode('utf-8'))
                     print(f"Aviso de arquivo enviado: {nome_arq}")
                 else:

@@ -1,9 +1,18 @@
 import socket
 import threading
 
-# Configurações do Servidor
-HOST = '0.0.0.0'  # Escuta em todas as redes disponíveis
+clientes=[]
+
+# configurações do servidor
+HOST = '0.0.0.0'  # escuta em todas as redes disponiveis
 PORTA = 9999
+def broadcast(mensagem, remetente):
+    for cliente in clientes:
+        if cliente != remetente:
+            try:
+                cliente.send(mensagem.encode('utf-8'))
+            except:
+                clientes.remove(cliente)
 
 def tratar_cliente(conn, addr):
     print(f"[CONEXÃO] {addr} conectado.")
@@ -11,24 +20,24 @@ def tratar_cliente(conn, addr):
     
     while conectado:
         try:
-            # Recebe o cabeçalho da mensagem
+            # recebe o cabeçalho da mensagem
             mensagem = conn.recv(1024).decode('utf-8')
             if not mensagem:
                 break
 
-            # Processando com Match/Case (Python 3.10+)
+            # processando com match/case
             prefixo = mensagem.split(':', 1)[0]
             conteudo = mensagem.split(':', 1)[1] if ':' in mensagem else ""
 
             match prefixo:
                 case "MSG":
                     print(f"[{addr}] CHAT: {conteudo}")
-                    # Opcional: Enviar confirmação de volta
-                    conn.send("Mensagem recebida pelo servidor!".encode('utf-8'))
+
+                    broadcast(f"[{addr}] {conteudo}", conn)
                 
                 case "FILE":
                     print(f"[{addr}] SOLICITAÇÃO DE ARQUIVO: {conteudo}")
-                    # Aqui entrará a lógica de recebimento de bytes no futuro
+                    # Aqui entrara a logica de recebimento de bytes
                     conn.send(f"Servidor pronto para receber {conteudo}".encode('utf-8'))
                 
                 case _:
@@ -45,6 +54,8 @@ def iniciar_servidor():
     servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     servidor.bind((HOST, PORTA))
     servidor.listen()
+    conn, addr = servidor.accept()
+    clientes.append(conn)
     print(f"[RODANDO] Servidor aguardando conexões em {PORTA}...")
 
     while True:
