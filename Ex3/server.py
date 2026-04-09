@@ -36,8 +36,27 @@ def tratar_cliente(conn, addr):
                     broadcast(f"[{addr}] {conteudo}", conn)
 
                 case "FILE":
-                    print(f"[{addr}] ARQUIVO: {conteudo}")
-                    conn.send(f"Servidor pronto para receber {conteudo}".encode('utf-8'))
+                    try:
+                        nome, tamanho = conteudo.split(':')
+                        tamanho = int(tamanho)
+
+                        print(f"[{addr}] Recebendo arquivo: {nome} ({tamanho} bytes)")
+
+                        with open(f"recebido_{nome}", 'wb') as f:
+                            bytes_recebidos = 0
+
+                            while bytes_recebidos < tamanho:
+                                 dados = conn.recv(1024)
+                                 f.write(dados)
+                                 bytes_recebidos += len(dados)
+
+                        print(f"[{addr}] Arquivo recebido com sucesso!")
+
+        
+                        broadcast(f"{addr} enviou o arquivo {nome}", conn)
+
+                    except Exception as e:
+                        print("Erro ao receber arquivo:", e)
 
                 case _:
                     print(f"[{addr}] Comando desconhecido")

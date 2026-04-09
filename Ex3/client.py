@@ -51,15 +51,24 @@ def iniciar_cliente():
                     cliente.send(f"MSG:{msg}".encode('utf-8'))
 
                 case '2':
-                    caminho = input("Caminho do arquivo: ")
+                 caminho = input("Caminho do arquivo: ")
 
-                    if os.path.exists(caminho):
-                        nome = os.path.basename(caminho)
-                        cliente.send(f"FILE:{nome}".encode('utf-8'))
-                        print("Arquivo enviado (nome).")
-                    else:
-                        print("Arquivo não encontrado.")
+                 if os.path.exists(caminho):
+                    nome = os.path.basename(caminho)
+                    tamanho = os.path.getsize(caminho)
+        
+                    cliente.send(f"FILE:{nome}:{tamanho}".encode('utf-8'))
+        
+                    with open(caminho, 'rb') as f:
+                     while True:
+                        bytes_lidos = f.read(1024)
+                        if not bytes_lidos:
+                            break
+                        cliente.send(bytes_lidos)
 
+                        print("Arquivo enviado com sucesso 🚀")
+                 else:
+                    print("Arquivo não encontrado.")
                 case '3':
                     print("Saindo...")
                     cliente.close()
