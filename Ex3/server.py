@@ -1,3 +1,7 @@
+# Gabriel Lazareti Cardoso Ra: 10417353
+# Victor Hugo Fiuza Garcia Ra: 10331903
+# Victor Reis da Silva Ra: 10420297
+#---------------------------------------------------
 
 # socket cria comunicacao de rede
 # threading permite varios clientes ao mesmo tempo
