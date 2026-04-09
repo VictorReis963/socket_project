@@ -1,4 +1,7 @@
-
+# Gabriel Lazareti Cardoso Ra: 10417353
+# Victor Hugo Fiuza Garcia Ra: 10331903
+# Victor Reis da Silva Ra: 10420297
+#-----------------------------------------------------
 # socket cria conexao de rede
 # threading permite executar tarefas ao mesmo tempo
 # os permite manipular arquivos e caminhos
