@@ -7,12 +7,13 @@ clientes=[]
 HOST = '0.0.0.0'  # escuta em todas as redes disponiveis
 PORTA = 9999
 def broadcast(mensagem, remetente):
+    print("Broadcastando para", len(clientes), "clientes")
     for cliente in clientes:
-        if cliente != remetente:
-            try:
-                cliente.send(mensagem.encode('utf-8'))
-            except:
-                clientes.remove(cliente)
+        print("Enviando para:", cliente)
+        try:
+            cliente.send(mensagem.encode('utf-8'))
+        except Exception as e:
+            print("Erro:", e)
 
 def tratar_cliente(conn, addr):
     print(f"[CONEXÃO] {addr} conectado.")
@@ -52,6 +53,7 @@ def tratar_cliente(conn, addr):
 
 def iniciar_servidor():
     servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    servidor.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     servidor.bind((HOST, PORTA))
     servidor.listen()
     conn, addr = servidor.accept()
