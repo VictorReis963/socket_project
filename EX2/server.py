@@ -1,3 +1,6 @@
+# Gabriel Lazareti Cardoso Ra: 10417353
+# Victor Hugo Fiuza Garcia Ra: 10331903
+# Victor Reis da Silva Ra: 10420297
 import socket
 
 HOST = '0.0.0.0'
