@@ -31,7 +31,7 @@ socket_project/
 | Atividade | Link |
 |-----------|------|
 | Vídeo 1 — Questões 1 e 2 (Chat TCP/UDP) | [https://youtu.be/wVdZc2c3g1E](https://youtu.be/wVdZc2c3g1E) |
-| Vídeo 2 — Questão 3 (Aplicação com Threads + Arquivos) | [https://youtu.be/qVbSi2thbM0](https://youtu.be/qVbSi2thbM0) |
+| Vídeo 2 — Questão 3 (Aplicação com Threads + Arquivos) | [https://youtu.be/Lr8zIiQOM_Q](https://youtu.be/Lr8zIiQOM_Q) |
 
 ---
 
